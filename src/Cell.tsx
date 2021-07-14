@@ -53,6 +53,7 @@ function Cell<R, SR>({
   onRowDoubleClick,
   onRowChange,
   selectCell,
+  theme,
   ...props
 }: CellRendererProps<R, SR>) {
   const { cellClass } = column;
@@ -87,6 +88,11 @@ function Cell<R, SR>({
     onRowChange(rowIdx, newRow);
   }
 
+  let {rowGroup} = column;
+  if(theme === 'airtable') {
+    rowGroup = false;
+  }
+
   return (
     <div
       role="gridcell"
@@ -101,7 +107,7 @@ function Cell<R, SR>({
       onContextMenu={handleContextMenu}
       {...props}
     >
-      {!column.rowGroup && (
+      {!rowGroup && (
         <>
           <column.formatter
             column={column}

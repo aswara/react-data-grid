@@ -23,6 +23,7 @@ import HeaderRow from './HeaderRow';
 import Row from './Row';
 import GroupRowRenderer from './GroupRow';
 import SummaryRow from './SummaryRow';
+
 import {
   assertIsValidKeyGetter,
   onEditorNavigation,
@@ -130,6 +131,7 @@ export interface DataGridProps<R, SR = unknown, K extends Key = Key> extends Sha
   defaultColumnOptions?: DefaultColumnOptions<R, SR> | null;
   groupBy?: readonly string[] | null;
   rowGrouper?: ((rows: readonly R[], columnKey: string) => Record<string, readonly R[]>) | null;
+  theme: string,
   expandedGroupIds?: ReadonlySet<unknown> | null;
   onExpandedGroupIdsChange?: ((expandedGroupIds: Set<unknown>) => void) | null;
   onFill?: ((event: FillEvent<R>) => R[]) | null;
@@ -198,6 +200,7 @@ function DataGrid<R, SR, K extends Key>(
     rowGrouper,
     expandedGroupIds,
     onExpandedGroupIdsChange,
+    theme = 'airtable',
     // Custom renderers
     rowRenderer,
     emptyRowsRenderer: EmptyRowsRenderer,
@@ -305,7 +308,8 @@ function DataGrid<R, SR, K extends Key>(
     viewportWidth: gridWidth,
     defaultColumnOptions,
     rawGroupBy: rowGrouper ? rawGroupBy : undefined,
-    enableVirtualization
+    enableVirtualization,
+    theme
   });
 
   const {
@@ -317,7 +321,8 @@ function DataGrid<R, SR, K extends Key>(
     isGroupRow,
     getRowTop,
     getRowHeight,
-    findRowIdx
+    findRowIdx,
+    groupedRows
   } = useViewportRows({
     rawRows,
     groupBy,
@@ -326,7 +331,8 @@ function DataGrid<R, SR, K extends Key>(
     clientHeight,
     scrollTop,
     expandedGroupIds,
-    enableVirtualization
+    enableVirtualization,
+    theme
   });
 
   const viewportColumns = useViewportColumns({
@@ -339,8 +345,32 @@ function DataGrid<R, SR, K extends Key>(
     rowOverscanEndIdx,
     rows,
     summaryRows,
-    isGroupRow
+    isGroupRow,
   });
+
+
+  console.log({
+    groupedRows,
+        columns,
+    colSpanColumns,
+    colOverscanStartIdx,
+    colOverscanEndIdx,
+    layoutCssVars,
+    columnMetrics,
+    totalColumnWidth,
+    lastFrozenColumnIndex,
+    totalFrozenColumnWidth,
+    groupBy,
+    viewportColumns,
+    rowOverscanStartIdx,
+    rowOverscanEndIdx,
+    rows,
+    rowsCount,
+    totalRowHeight,
+    isGroupRow,
+    getRowTop,
+    getRowHeight
+  })
 
   const hasGroups = groupBy.length > 0 && typeof rowGrouper === 'function';
   const minColIdx = hasGroups ? -1 : 0;
@@ -964,7 +994,8 @@ function DataGrid<R, SR, K extends Key>(
 
   function getViewportRows() {
     const rowElements = [];
-    let startRowIndex = 0;
+    let startRowIndex = 0;    
+
     for (let rowIdx = rowOverscanStartIdx; rowIdx <= rowOverscanEndIdx; rowIdx++) {
       const row = rows[rowIdx];
       const top = getRowTop(rowIdx) + headerRowHeight;
@@ -982,6 +1013,7 @@ function DataGrid<R, SR, K extends Key>(
             key={row.id}
             id={row.id}
             groupKey={row.groupKey}
+            groupField={groupBy[row.level]}
             viewportColumns={viewportColumns}
             childRows={row.childRows}
             rowIdx={rowIdx}
@@ -995,6 +1027,8 @@ function DataGrid<R, SR, K extends Key>(
             onKeyDown={selectedPosition.rowIdx === rowIdx ? handleKeyDown : undefined}
             selectCell={selectCellLatest}
             toggleGroup={toggleGroupLatest}
+            theme={theme}
+          
           />
         );
         continue;
@@ -1035,6 +1069,7 @@ function DataGrid<R, SR, K extends Key>(
           selectedCellProps={getSelectedCellProps(rowIdx)}
           onRowChange={handleFormatterRowChangeLatest}
           selectCell={selectCellLatest}
+          theme={theme}
         />
       );
     }

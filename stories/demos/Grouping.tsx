@@ -24,7 +24,7 @@ const optionsClassname = css`
 `;
 
 interface Row {
-  id: number;
+  key: number;
   country: string;
   year: number;
   sport: string;
@@ -66,43 +66,62 @@ const sports = [
 ];
 
 const columns: readonly Column<Row>[] = [
-  SelectColumn,
+  {
+    key: 'GROUP',
+    maxWidth: 60,
+    name: '',
+    frozen: true,
+  },
+  {
+    key: 'ROW',
+    maxWidth: 60,
+    name: '',
+    frozen: true,
+  },
   {
     key: 'country',
-    name: 'Country'
+    name: 'Country',
+    frozen: true,
+    width: 200
   },
   {
     key: 'year',
-    name: 'Year'
+    name: 'Year',
+    width: 200
   },
   {
     key: 'sport',
-    name: 'Sport'
+    name: 'Sport',
+    width: 200
   },
   {
     key: 'athlete',
-    name: 'Athlete'
+    name: 'Athlete',
+    width: 200
   },
   {
     key: 'gold',
     name: 'Gold',
-    groupFormatter({ childRows }) {
-      return <>{childRows.reduce((prev, { gold }) => prev + gold, 0)}</>;
-    }
+    // groupFormatter({ childRows }) {
+    //   return <>{childRows.reduce((prev, { gold }) => prev + gold, 0)}</>;
+    // },
+    width: 200
   },
   {
     key: 'silver',
     name: 'Silver',
-    groupFormatter({ childRows }) {
-      return <>{childRows.reduce((prev, { silver }) => prev + silver, 0)}</>;
-    }
+    // groupFormatter({ childRows }) {
+    //   return <>{childRows.reduce((prev, { silver }) => prev + silver, 0)}</>;
+    // },
+    width: 200
   },
   {
     key: 'bronze',
     name: 'Bronze',
-    groupFormatter({ childRows }) {
-      return <>{childRows.reduce((prev, { silver }) => prev + silver, 0)}</>;
-    }
+    // groupFormatter({ childRows }) {
+    //   return <>{childRows.reduce((prev, { silver }) => prev + silver, 0)}</>;
+    // },
+    width: 200
   },
   {
     key: 'total',
@@ -110,21 +129,22 @@ const columns: readonly Column<Row>[] = [
     formatter({ row }) {
       return <>{row.gold + row.silver + row.bronze}</>;
     },
-    groupFormatter({ childRows }) {
-      return <>{childRows.reduce((prev, row) => prev + row.gold + row.silver + row.bronze, 0)}</>;
-    }
+    // groupFormatter({ childRows }) {
+    //   return <>{childRows.reduce((prev, row) => prev + row.gold + row.silver + row.bronze, 0)}</>;
+    // }
   }
 ];
 
 function rowKeyGetter(row: Row) {
-  return row.id;
+  return row.key;
 }
 
 function createRows(): readonly Row[] {
   const rows: Row[] = [];
   for (let i = 1; i < 10000; i++) {
     rows.push({
-      id: i,
+      ROW: '2',
+      key: i,
       year: 2015 + faker.datatype.number(3),
       country: faker.address.country(),
       sport: sports[faker.datatype.number(sports.length - 1)],
@@ -167,6 +187,21 @@ export function Grouping() {
     setExpandedGroupIds(new Set());
   }
 
+  function rowHeight(arg) {
+    // should be based on the content of the row
+    if(arg.type === 'GROUP') {
+      return 50
+    }
+
+    if(arg.row.id === 'DIVIDER') {
+      return 26
+    }
+
+    return 36;
+  }
+
+  columns[0].maxWidth = selectedOptions.length * 20
+
   return (
     <div className={groupingClassname}>
       <b>Group by columns:</b>
@@ -183,6 +218,7 @@ export function Grouping() {
         ))}
       </div>
 
+      
       <DataGrid
         columns={columns}
         rows={rows}
@@ -194,9 +230,14 @@ export function Grouping() {
         expandedGroupIds={expandedGroupIds}
         onExpandedGroupIdsChange={setExpandedGroupIds}
         defaultColumnOptions={{ resizable: true }}
+        rowHeight={rowHeight}
+        enableVirtualization
+        theme="airtable"
       />
     </div>
   );
 }
+
+
 
 Grouping.storyName = 'Grouping';

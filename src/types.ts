@@ -144,6 +144,7 @@ export interface CellRendererProps<TRow, TSummaryRow>
   dragHandleProps:
     | Pick<React.HTMLAttributes<HTMLDivElement>, 'onMouseDown' | 'onDoubleClick'>
     | undefined;
+  theme: string | undefined;
 }
 
 export interface RowRendererProps<TRow, TSummaryRow = unknown>
@@ -167,6 +168,7 @@ export interface RowRendererProps<TRow, TSummaryRow = unknown>
   rowClass: ((row: TRow) => string | undefined | null) | undefined | null;
   setDraggedOverRowIdx: ((overRowIdx: number) => void) | undefined;
   selectCell: SelectCellFn;
+  theme: string | undefined;
 }
 
 export interface RowsChangeData<R, SR = unknown> {

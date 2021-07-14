@@ -23,6 +23,7 @@ interface ViewportRowsArgs<R> {
     | null;
   expandedGroupIds: ReadonlySet<unknown> | undefined | null;
   enableVirtualization: boolean;
+  theme: string;
 }
 
 // https://github.com/microsoft/TypeScript/issues/41808
@@ -38,7 +39,8 @@ export function useViewportRows<R>({
   groupBy,
   rowGrouper,
   expandedGroupIds,
-  enableVirtualization
+  enableVirtualization,
+  theme
 }: ViewportRowsArgs<R>) {
   const [groupedRows, rowsCount] = useMemo(() => {
     if (groupBy.length === 0 || rowGrouper == null) return [undefined, rawRows.length];
@@ -81,14 +83,18 @@ export function useViewportRows<R>({
     ): void => {
       if (isReadonlyArray(rows)) {
         flattenedRows.push(...rows);
+        // if(theme === 'airtable') {
+        //   flattenedRows.push({ 'id': 'DIVIDER' });
+        // }
         return;
       }
       Object.keys(rows).forEach((groupKey, posInSet, keys) => {
         // TODO: should users have control over the generated key?
         const id = parentId !== undefined ? `${parentId}__${groupKey}` : groupKey;
-        const isExpanded = expandedGroupIds?.has(id) ?? false;
+        const isExpanded = !expandedGroupIds?.has(id);
         const { childRows, childGroups, startRowIndex } = rows[groupKey];
 
+    
         const groupRow: GroupRow<R> = {
           id,
           parentId,
@@ -100,6 +106,8 @@ export function useViewportRows<R>({
           startRowIndex,
           setSize: keys.length
         };
+
+
         flattenedRows.push(groupRow);
         allGroupRows.add(groupRow);
 
@@ -108,6 +116,7 @@ export function useViewportRows<R>({
         }
       });
     };
+
 
     expandGroup(groupedRows, undefined, 0);
     return [flattenedRows, isGroupRow];
@@ -196,6 +205,7 @@ export function useViewportRows<R>({
     rows,
     rowsCount,
     totalRowHeight,
+    groupedRows,
     isGroupRow,
     getRowTop,
     getRowHeight,

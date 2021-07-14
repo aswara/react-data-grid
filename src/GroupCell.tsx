@@ -3,6 +3,7 @@ import { memo } from 'react';
 import { getCellStyle, getCellClassname } from './utils';
 import type { CalculatedColumn } from './types';
 import type { GroupRowRendererProps } from './GroupRow';
+import { AirtableGroupFormatter } from './formatters';
 
 type SharedGroupRowRendererProps<R, SR> = Pick<
   GroupRowRendererProps<R, SR>,
@@ -13,6 +14,7 @@ interface GroupCellProps<R, SR> extends SharedGroupRowRendererProps<R, SR> {
   column: CalculatedColumn<R, SR>;
   isCellSelected: boolean;
   groupColumnIndex: number;
+  level: number;
 }
 
 function GroupCell<R, SR>({
@@ -24,7 +26,8 @@ function GroupCell<R, SR>({
   isCellSelected,
   column,
   groupColumnIndex,
-  toggleGroup: toggleGroupWrapper
+  level,
+  toggleGroup: toggleGroupWrapper,
 }: GroupCellProps<R, SR>) {
   function toggleGroup() {
     toggleGroupWrapper(id);
@@ -32,6 +35,18 @@ function GroupCell<R, SR>({
 
   // Only make the cell clickable if the group level matches
   const isLevelMatching = column.rowGroup && groupColumnIndex === column.idx;
+
+  let style = {}
+
+  if(column.idx === 0) {
+    style = {
+      gridColumn: `1 / span 3`,
+      paddingLeft: level * 20 + 10,
+      border: 'none'
+    }
+    column.groupFormatter = AirtableGroupFormatter;
+    column.rowGroup = false;
+  }
 
   return (
     <div
@@ -42,11 +57,12 @@ function GroupCell<R, SR>({
       className={getCellClassname(column)}
       style={{
         ...getCellStyle(column),
-        cursor: isLevelMatching ? 'pointer' : 'default'
+        cursor: isLevelMatching ? 'pointer' : 'default',
+        ...style,
       }}
       onClick={isLevelMatching ? toggleGroup : undefined}
     >
-      {(!column.rowGroup || groupColumnIndex === column.idx) && column.groupFormatter && (
+      {  (!column.rowGroup || groupColumnIndex === column.idx) && column.groupFormatter && (
         <column.groupFormatter
           rowIdx={rowIdx}
           groupKey={groupKey}

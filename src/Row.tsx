@@ -29,6 +29,7 @@ function Row<R, SR>(
     height,
     onRowChange,
     selectCell,
+    theme,
     ...props
   }: RowRendererProps<R, SR>,
   ref: React.Ref<HTMLDivElement>
@@ -50,11 +51,16 @@ function Row<R, SR>(
 
   const cells = [];
 
+
   for (let index = 0; index < viewportColumns.length; index++) {
     const column = viewportColumns[index];
-    const colSpan = getColSpan(column, lastFrozenColumnIndex, { type: 'ROW', row });
+    let colSpan = getColSpan(column, lastFrozenColumnIndex, { type: 'ROW', row });
     if (colSpan !== undefined) {
       index += colSpan - 1;
+    }
+
+    if(row.id === 'DIVIDER') {
+      colSpan = viewportColumns.length;
     }
 
     const isCellSelected = selectedCellProps?.idx === column.idx;
@@ -91,6 +97,7 @@ function Row<R, SR>(
         onRowDoubleClick={onRowDoubleClick}
         onRowChange={onRowChange}
         selectCell={selectCell}
+        theme={theme}
       />
     );
   }
