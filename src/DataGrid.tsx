@@ -200,7 +200,7 @@ function DataGrid<R, SR, K extends Key>(
     rowGrouper,
     expandedGroupIds,
     onExpandedGroupIdsChange,
-    theme = 'airtable',
+    theme,
     // Custom renderers
     rowRenderer,
     emptyRowsRenderer: EmptyRowsRenderer,
@@ -349,28 +349,28 @@ function DataGrid<R, SR, K extends Key>(
   });
 
 
-  console.log({
-    groupedRows,
-        columns,
-    colSpanColumns,
-    colOverscanStartIdx,
-    colOverscanEndIdx,
-    layoutCssVars,
-    columnMetrics,
-    totalColumnWidth,
-    lastFrozenColumnIndex,
-    totalFrozenColumnWidth,
-    groupBy,
-    viewportColumns,
-    rowOverscanStartIdx,
-    rowOverscanEndIdx,
-    rows,
-    rowsCount,
-    totalRowHeight,
-    isGroupRow,
-    getRowTop,
-    getRowHeight
-  })
+  // console.log({
+  //   groupedRows,
+  //       columns,
+  //   colSpanColumns,
+  //   colOverscanStartIdx,
+  //   colOverscanEndIdx,
+  //   layoutCssVars,
+  //   columnMetrics,
+  //   totalColumnWidth,
+  //   lastFrozenColumnIndex,
+  //   totalFrozenColumnWidth,
+  //   groupBy,
+  //   viewportColumns,
+  //   rowOverscanStartIdx,
+  //   rowOverscanEndIdx,
+  //   rows,
+  //   rowsCount,
+  //   totalRowHeight,
+  //   isGroupRow,
+  //   getRowTop,
+  //   getRowHeight
+  // })
 
   const hasGroups = groupBy.length > 0 && typeof rowGrouper === 'function';
   const minColIdx = hasGroups ? -1 : 0;
@@ -1028,7 +1028,7 @@ function DataGrid<R, SR, K extends Key>(
             selectCell={selectCellLatest}
             toggleGroup={toggleGroupLatest}
             theme={theme}
-          
+            columns={rawColumns}
           />
         );
         continue;

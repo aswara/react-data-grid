@@ -12,6 +12,7 @@ export * from './demos/ColumnSpanning';
 export * from './demos/ColumnsReordering';
 export * from './demos/RowsReordering';
 export * from './demos/Grouping';
+export * from './demos/GroupingKontenbase';
 export * from './demos/Resizable';
 export * from './demos/VariableRowHeight';
 

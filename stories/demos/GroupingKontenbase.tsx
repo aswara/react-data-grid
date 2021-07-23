@@ -5,6 +5,7 @@ import { css } from '@linaria/core';
 
 import DataGrid, { SelectColumn } from '../../src';
 import type { Column } from '../../src';
+import data from './GroupData';
 
 const groupingClassname = css`
   display: flex;
@@ -25,8 +26,8 @@ const optionsClassname = css`
 
 interface Row {
   key: number;
-  country: string;
-  year: number;
+  Name: string;
+  rating: number;
   sport: string;
   athlete: string;
   gold: number;
@@ -66,26 +67,26 @@ const sports = [
 ];
 
 const columns: readonly Column<Row>[] = [
+  // {
+  //   key: 'GROUP',
+  //   maxWidth: 60,
+  //   name: '',
+  //   frozen: true,
+  // },
+  // {
+  //   key: 'ROW',
+  //   maxWidth: 60,
+  //   name: '',
+  //   frozen: true,
+  // },
   {
-    key: 'GROUP',
-    maxWidth: 60,
-    name: '',
-    frozen: true,
-  },
-  {
-    key: 'ROW',
-    maxWidth: 60,
-    name: '',
-    frozen: true,
-  },
-  {
-    key: 'country',
+    key: 'Name',
     name: 'Country',
     frozen: true,
     width: 200
   },
   {
-    key: 'year',
+    key: 'rating',
     name: 'Year',
     width: 200
   },
@@ -145,22 +146,15 @@ function createRows(): readonly Row[] {
     rows.push({
       ROW: '2',
       key: i,
-      year: 2015 + faker.datatype.number(3),
-      country: faker.address.country(),
-      sport: sports[faker.datatype.number(sports.length - 1)],
-      athlete: faker.name.findName(),
-      gold: faker.datatype.number(5),
-      silver: faker.datatype.number(5),
-      bronze: faker.datatype.number(5)
     });
   }
 
-  return rows.sort((r1, r2) => r2.country.localeCompare(r1.country));
+  return rows;
 }
 
-const options = ['country', 'year', 'sport', 'athlete'] as const;
+const options = ['Name', 'rating', 'sport', 'athlete'] as const;
 
-export function Grouping() {
+export function GroupingKontenbase() {
   const [rows] = useState(createRows);
   const [selectedRows, setSelectedRows] = useState<ReadonlySet<number>>(() => new Set());
   const [selectedOptions, setSelectedOptions] = useState<readonly string[]>([
@@ -168,7 +162,7 @@ export function Grouping() {
     options[1]
   ]);
   const [expandedGroupIds, setExpandedGroupIds] = useState<ReadonlySet<unknown>>(
-    () => new Set<unknown>(['United States of America', 'United States of America__2015'])
+    () => new Set<unknown>([])
   );
 
   function toggleOption(option: string, enabled: boolean) {
@@ -200,7 +194,19 @@ export function Grouping() {
     return 36;
   }
 
-  columns[0].maxWidth = selectedOptions.length * 16
+  // columns[0].maxWidth = selectedOptions.length * 16
+
+  const groupRows = [];
+
+  const mapping = (records) => {
+    records.forEach(element => {
+      if(element.records) {
+        groupRows.push(...element.records)
+      }
+    });
+  }
+
+  mapping(data)
 
   return (
     <div className={groupingClassname}>
@@ -221,7 +227,7 @@ export function Grouping() {
       
       <DataGrid
         columns={columns}
-        rows={rows}
+        rows={groupRows}
         rowKeyGetter={rowKeyGetter}
         selectedRows={selectedRows}
         onSelectedRowsChange={setSelectedRows}
@@ -240,4 +246,4 @@ export function Grouping() {
 
 
 
-Grouping.storyName = 'Grouping';
+GroupingKontenbase.storyName = 'GroupingKontenbase';

@@ -89,8 +89,16 @@ function Cell<R, SR>({
   }
 
   let {rowGroup} = column;
-  if(theme === 'airtable') {
+  let style = getCellStyle(column, colSpan);
+  if(theme === 'kontenbase') {
     rowGroup = false;
+    if (column.key === "GROUP") {
+      style = {
+        ...style,
+        borderBottom: 'none',
+        backgroundColor: 'var(--header-background-color)'
+      }
+    }
   }
 
   return (
@@ -101,7 +109,7 @@ function Cell<R, SR>({
       aria-colspan={colSpan}
       aria-readonly={!isCellEditable(column, row) || undefined}
       className={className}
-      style={getCellStyle(column, colSpan)}
+      style={style}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
       onContextMenu={handleContextMenu}

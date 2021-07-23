@@ -13,6 +13,7 @@ export interface GroupRowRendererProps<R, SR>
   id: string;
   groupKey: unknown;
   viewportColumns: readonly CalculatedColumn<R, SR>[];
+  columns: readonly CalculatedColumn<R, SR>[];
   childRows: readonly R[];
   rowIdx: number;
   top: number;
@@ -43,16 +44,19 @@ function GroupedRow<R, SR>({
   toggleGroup,
   theme,
   groupField,
+  columns,
   ...props
 }: GroupRowRendererProps<R, SR>) {
   // Select is always the first column
   const idx = viewportColumns[0].key === SELECT_COLUMN_KEY ? level + 1 : level;
 
   function selectGroup() {
-    if(theme !== 'airtable') {
+    if(theme !== 'kontenbase') {
       selectCell({ rowIdx, idx: -1 });
     }
   }
+
+  const groupColumn = columns.find(item => item.key === groupField);
 
   return (
     <RowSelectionProvider value={isRowSelected}>
@@ -78,63 +82,6 @@ function GroupedRow<R, SR>({
         {...props}
       >
         {viewportColumns.map((column) => {
-          // if(column.idx === 0) {
-          //   const divider = []
-
-          //   for (let index = 0; index < level ; index++) {
-          //     divider.push(
-          //       <div
-          //         style={{
-          //           height,
-          //           width: 20,
-          //           borderLeft: '1px solid lightgray',
-          //         }}
-          //        />
-          //     )
-              
-          //   }
-
-          //   return (
-          //     <div
-          //       style={{
-          //         display: 'flex'
-          //       }}
-          //     >
-          //       {/* {divider} */}
-          //       {/* <div 
-          //         style={{
-          //           borderTop: '1px solid lightgray',
-          //           borderLeft: '1px solid lightgray',
-          //           flexGrow: 1,
-          //           borderTopLeftRadius: 8,
-          //         }}
-          //       /> */}
-          //       </div>
-          //   )
-          // }
-
-          // if( theme === 'airtable' && column.idx === 1) {
-          //   return (
-          //     <div
-          //       style={{
-          //         borderBottom: '1px solid lightgray',
-          //         // left: level * 20 + 10,
-          //         // zIndex: 10,
-          //         // position: 'absolute'
-          //       }}
-          //     >
-          //       <AirtableGroupFormatter 
-          //         groupKey={groupKey}
-          //         rowIdx={rowIdx}
-          //         toggleGroup={() => toggleGroup(id)}
-          //         isExpanded={isExpanded}
-          //         column={column}
-          //         childRows={childRows}
-          //         isCellSelected={selectedCellIdx === column.idx}
-          //     />
-          //     </div>
-          //   )
-          // }
 
           return (
 
@@ -150,6 +97,8 @@ function GroupedRow<R, SR>({
               groupColumnIndex={idx}
               toggleGroup={toggleGroup}
               level={level}
+              theme={theme}
+              groupColumn={groupColumn}
             />
           )
         })}

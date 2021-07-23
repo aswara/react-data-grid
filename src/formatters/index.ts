@@ -1,4 +1,4 @@
 export * from './SelectCellFormatter';
 export * from './ValueFormatter';
 export * from './ToggleGroupFormatter';
-export * from './AirtableGroupFormatter';
+export * from './KontenbaseGroupFormatter';

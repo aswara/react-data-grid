@@ -83,7 +83,7 @@ export function useViewportRows<R>({
     ): void => {
       if (isReadonlyArray(rows)) {
         flattenedRows.push(...rows);
-        // if(theme === 'airtable') {
+        // if(theme === 'kontenbase') {
         //   flattenedRows.push({ 'id': 'DIVIDER' });
         // }
         return;

@@ -56,7 +56,7 @@ export function useCalculatedColumns<R, SR>({
     const columns = rawColumns.map((rawColumn) => {
       const rowGroup = rawGroupBy?.includes(rawColumn.key) ?? false;
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-      const frozen = theme === 'airtable' ? rawColumn.frozen || false : rowGroup || rawColumn.frozen || false;
+      const frozen = theme === 'kontenbase' ? rawColumn.frozen || false : rowGroup || rawColumn.frozen || false;
 
       const column: Mutable<CalculatedColumn<R, SR>> = {
         ...rawColumn,
@@ -69,7 +69,7 @@ export function useCalculatedColumns<R, SR>({
         formatter: rawColumn.formatter ?? defaultFormatter
       };
 
-      if (theme !== 'airtable' && rowGroup) {
+      if (theme !== 'kontenbase' && rowGroup) {
         column.groupFormatter ??= ToggleGroupFormatter;
       }
 
@@ -87,7 +87,7 @@ export function useCalculatedColumns<R, SR>({
       if (bKey === SELECT_COLUMN_KEY) return 1;
 
       // Sort grouped columns second, following the groupBy order:
-      if(theme !== 'airtable') {
+      if(theme !== 'kontenbase') {
         if (rawGroupBy?.includes(aKey)) {
           if (rawGroupBy.includes(bKey)) {
             return rawGroupBy.indexOf(aKey) - rawGroupBy.indexOf(bKey);

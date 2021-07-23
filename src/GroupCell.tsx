@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { getCellStyle, getCellClassname } from './utils';
 import type { CalculatedColumn } from './types';
 import type { GroupRowRendererProps } from './GroupRow';
-import { AirtableGroupFormatter } from './formatters';
+import { kontenbaseGroupFormatter } from './formatters';
 
 type SharedGroupRowRendererProps<R, SR> = Pick<
   GroupRowRendererProps<R, SR>,
@@ -15,6 +15,8 @@ interface GroupCellProps<R, SR> extends SharedGroupRowRendererProps<R, SR> {
   isCellSelected: boolean;
   groupColumnIndex: number;
   level: number;
+  theme: string;
+  groupColumn: CalculatedColumn<R, SR> | undefined;
 }
 
 function GroupCell<R, SR>({
@@ -27,6 +29,8 @@ function GroupCell<R, SR>({
   column,
   groupColumnIndex,
   level,
+  theme,
+  groupColumn,
   toggleGroup: toggleGroupWrapper,
 }: GroupCellProps<R, SR>) {
   function toggleGroup() {
@@ -38,13 +42,13 @@ function GroupCell<R, SR>({
 
   let style = {}
 
-  if(column.idx === 0) {
+  if(theme === "kontenbase" && column.idx === 0) {
     style = {
-      gridColumn: `1 / span 3`,
+      gridColumn: `1 / span 4`,
       paddingLeft: level * 20 + 10,
       border: 'none'
     }
-    column.groupFormatter = AirtableGroupFormatter;
+    column.groupFormatter = kontenbaseGroupFormatter;
     column.rowGroup = false;
   }
 
@@ -71,6 +75,7 @@ function GroupCell<R, SR>({
           isExpanded={isExpanded}
           isCellSelected={isCellSelected}
           toggleGroup={toggleGroup}
+          groupColumn={groupColumn}
         />
       )}
     </div>
