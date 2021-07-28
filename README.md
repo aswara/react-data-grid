@@ -1,28 +1,22 @@
-# react-data-grid
+# kontenbase-data-grid
 
 [![npm-badge]][npm-url]
 [![type-badge]][npm-url]
 [![size-badge]][size-url]
-[![codecov-badge]][codecov-url]
-[![ci-badge]][ci-url]
 
-[npm-badge]: https://img.shields.io/npm/v/react-data-grid
-[npm-url]: https://www.npmjs.com/package/react-data-grid
-[size-badge]: https://img.shields.io/bundlephobia/minzip/react-data-grid
-[size-url]: https://bundlephobia.com/result?p=react-data-grid
-[type-badge]: https://img.shields.io/npm/types/react-data-grid
-[codecov-badge]: https://codecov.io/gh/adazzle/react-data-grid/branch/main/graph/badge.svg?token=cvrRSWiz0Q
-[codecov-url]: https://codecov.io/gh/adazzle/react-data-grid
-[ci-badge]: https://github.com/adazzle/react-data-grid/workflows/CI/badge.svg
-[ci-url]: https://github.com/adazzle/react-data-grid/actions
+[npm-badge]: https://img.shields.io/npm/v/kontenbase-data-grid
+[npm-url]: https://www.npmjs.com/package/kontenbase-data-grid
+[size-badge]: https://img.shields.io/bundlephobia/minzip/kontenbase-data-grid
+[size-url]: https://bundlephobia.com/result?p=kontenbase-data-grid
+[type-badge]: https://img.shields.io/npm/types/kontenbase-data-grid
 
 ## Install
 
 ```sh
-npm install react-data-grid
+npm install kontenbase-data-grid
 ```
 
-react-data-grid is published as ES2019 modules, you'll probably want to transpile those down to scripts for the browsers you target using [Babel](https://babeljs.io/) and [browserslist](https://github.com/browserslist/browserslist).
+kontenbase-data-grid is published as ES2019 modules, you'll probably want to transpile those down to scripts for the browsers you target using [Babel](https://babeljs.io/) and [browserslist](https://github.com/browserslist/browserslist).
 
 <details>
 <summary>Example browserslist configuration file</summary>
@@ -77,7 +71,7 @@ See [documentation](https://babeljs.io/docs/en/)
   module: {
     rules: {
       test: /\.js$/,
-      exclude: /node_modules[/\\](?!react-data-grid[/\\]lib)/,
+      exclude: /node_modules[/\\](?!kontenbase-data-grid[/\\]lib)/,
       use: 'babel-loader'
     }
   }
@@ -96,7 +90,7 @@ See [documentation](https://github.com/babel/babel-loader)
   // ...
   plugins: {
     babel({
-      include: ['./src/**/*', './node_modules/react-data-grid/lib/**/*']
+      include: ['./src/**/*', './node_modules/kontenbase-data-grid/lib/**/*']
     });
   }
 }
@@ -109,7 +103,7 @@ See [documentation](https://github.com/rollup/plugins/tree/master/packages/babel
 ## Usage
 
 ```jsx
-import DataGrid from 'react-data-grid';
+import DataGrid from 'kontenbase-data-grid';
 
 const columns = [
   { key: 'id', name: 'ID' },
@@ -128,8 +122,8 @@ function App() {
 
 ## Documentation
 
-- [Website](https://adazzle.github.io/react-data-grid/canary/)
+- [Website](https://adazzle.github.io/kontenbase-data-grid/canary/)
   - [Source code](stories)
-- [Old website for react-data-grid v5](https://adazzle.github.io/react-data-grid/)
+- [Old website for kontenbase-data-grid v5](https://adazzle.github.io/kontenbase-data-grid/)
 - [Changelog](CHANGELOG.md)
 - [Contributing](CONTRIBUTING.md)

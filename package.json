@@ -1,6 +1,6 @@
 {
-  "name": "react-data-grid",
-  "version": "7.0.0-canary.49",
+  "name": "kontenbase-data-grid",
+  "version": "0.0.7",
   "license": "MIT",
   "description": "Excel-like grid component built with React, with editors, keyboard navigation, copy & paste, and the like",
   "keywords": [
@@ -39,9 +39,7 @@
     "prettier:check": "prettier --check .",
     "prettier:format": "prettier --write .",
     "typecheck": "tsc -p tsconfig.all.json",
-    "build-storybook": "build-storybook --quiet",
-    "prepublishOnly": "npm install && npm run build && npm run build:types",
-    "postpublish": "git push --follow-tags origin HEAD"
+    "build-storybook": "build-storybook --quiet"
   },
   "dependencies": {
     "clsx": "^1.1.1"

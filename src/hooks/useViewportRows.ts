@@ -83,9 +83,6 @@ export function useViewportRows<R>({
     ): void => {
       if (isReadonlyArray(rows)) {
         flattenedRows.push(...rows);
-        // if(theme === 'kontenbase') {
-        //   flattenedRows.push({ 'id': 'DIVIDER' });
-        // }
         return;
       }
       Object.keys(rows).forEach((groupKey, posInSet, keys) => {

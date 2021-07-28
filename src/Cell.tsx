@@ -96,6 +96,7 @@ function Cell<R, SR>({
       style = {
         ...style,
         borderBottom: 'none',
+        padding: 0,
         backgroundColor: 'var(--header-background-color)'
       }
     }

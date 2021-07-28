@@ -76,6 +76,7 @@ function GroupedRow<R, SR>({
         style={
           {
             top,
+            borderTop: '1px solid var(--border-color)',
             '--row-height': `${height}px`
           } as unknown as CSSProperties
         }
@@ -99,6 +100,7 @@ function GroupedRow<R, SR>({
               level={level}
               theme={theme}
               groupColumn={groupColumn}
+              columns={columns}
             />
           )
         })}

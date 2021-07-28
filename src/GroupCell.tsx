@@ -31,6 +31,7 @@ function GroupCell<R, SR>({
   level,
   theme,
   groupColumn,
+  columns,
   toggleGroup: toggleGroupWrapper,
 }: GroupCellProps<R, SR>) {
   function toggleGroup() {
@@ -45,11 +46,15 @@ function GroupCell<R, SR>({
   if(theme === "kontenbase" && column.idx === 0) {
     style = {
       gridColumn: `1 / span 4`,
-      paddingLeft: level * 20 + 10,
-      border: 'none'
+      paddingLeft: level  * 16,
+      border: 'none',
     }
-    column.groupFormatter = kontenbaseGroupFormatter;
+    
     column.rowGroup = false;
+
+    if (!column.groupFormatter) {
+      column.groupFormatter = kontenbaseGroupFormatter;
+    }
   }
 
   return (

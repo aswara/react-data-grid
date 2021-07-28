@@ -47,7 +47,7 @@ export function useCalculatedColumns<R, SR>({
     groupBy: readonly string[];
   } => {
     // Filter rawGroupBy and ignore keys that do not match the columns prop
-    const groupBy: string[] = [];
+    let groupBy: string[] = [];
     let lastFrozenColumnIndex = -1;
 
     
@@ -123,6 +123,10 @@ export function useCalculatedColumns<R, SR>({
 
     if (lastFrozenColumnIndex !== -1) {
       columns[lastFrozenColumnIndex].isLastFrozenColumn = true;
+    }
+
+    if (theme === "kontenbase" && rawGroupBy) {
+      groupBy = rawGroupBy;
     }
 
     return {

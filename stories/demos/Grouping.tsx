@@ -5,6 +5,7 @@ import { css } from '@linaria/core';
 
 import DataGrid, { SelectColumn } from '../../src';
 import type { Column } from '../../src';
+import GroupFormatter from './components/Formatters/GroupFormatter';
 
 const groupingClassname = css`
   display: flex;
@@ -71,23 +72,27 @@ const columns: readonly Column<Row>[] = [
     maxWidth: 60,
     name: '',
     frozen: true,
+    groupFormatter: GroupFormatter
   },
   {
     key: 'ROW',
     maxWidth: 60,
     name: '',
     frozen: true,
+    groupFormatter: GroupFormatter
   },
   {
     key: 'country',
     name: 'Country',
     frozen: true,
-    width: 200
+    width: 200,
+    groupFormatter: GroupFormatter
   },
   {
     key: 'year',
     name: 'Year',
-    width: 200
+    width: 200,
+    groupFormatter: GroupFormatter
   },
   {
     key: 'sport',
@@ -102,9 +107,9 @@ const columns: readonly Column<Row>[] = [
   {
     key: 'gold',
     name: 'Gold',
-    // groupFormatter({ childRows }) {
-    //   return <>{childRows.reduce((prev, { gold }) => prev + gold, 0)}</>;
-    // },
+    groupFormatter({ childRows }) {
+      return <>{childRows.reduce((prev, { gold }) => prev + gold, 0)}</>;
+    },
     width: 200
   },
   {
@@ -190,18 +195,18 @@ export function Grouping() {
   function rowHeight(arg) {
     // should be based on the content of the row
     if(arg.type === 'GROUP') {
-      return 50
+      return 42
     }
 
     if(arg.row.id === 'DIVIDER') {
       return 26
     }
 
-    return 36;
+    return 30;
   }
 
-  columns[0].maxWidth = selectedOptions.length * 16
-
+  columns[0].maxWidth = selectedOptions.length > 0 ? (selectedOptions.length - 1) * 16 : 0
+ 
   return (
     <div className={groupingClassname}>
       <b>Group by columns:</b>
