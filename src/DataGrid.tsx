@@ -349,29 +349,6 @@ function DataGrid<R, SR, K extends Key>(
   });
 
 
-  // console.log({
-  //   groupedRows,
-  //       columns,
-  //   colSpanColumns,
-  //   colOverscanStartIdx,
-  //   colOverscanEndIdx,
-  //   layoutCssVars,
-  //   columnMetrics,
-  //   totalColumnWidth,
-  //   lastFrozenColumnIndex,
-  //   totalFrozenColumnWidth,
-  //   groupBy,
-  //   viewportColumns,
-  //   rowOverscanStartIdx,
-  //   rowOverscanEndIdx,
-  //   rows,
-  //   rowsCount,
-  //   totalRowHeight,
-  //   isGroupRow,
-  //   getRowTop,
-  //   getRowHeight
-  // })
-
   const hasGroups = groupBy.length > 0 && typeof rowGrouper === 'function';
   const minColIdx = hasGroups ? -1 : 0;
 
@@ -524,7 +501,6 @@ function DataGrid<R, SR, K extends Key>(
   function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
     const { key, keyCode } = event;
     const row = rows[selectedPosition.rowIdx];
-
     if (
       onPaste &&
       isCtrlKeyHeldDown(event) &&
@@ -647,12 +623,14 @@ function DataGrid<R, SR, K extends Key>(
   function handleCellInput(event: React.KeyboardEvent<HTMLDivElement>) {
     if (!isCellWithinBounds(selectedPosition)) return;
     const row = rows[selectedPosition.rowIdx];
-    if (isGroupRow(row)) return;
-    const { key } = event;
+
+    if (theme !== "kontenbase" && isGroupRow(row)) return;
+
+    const { key, shiftKey } = event;
     const column = columns[selectedPosition.idx];
 
     if (selectedPosition.mode === 'EDIT') {
-      if (key === 'Enter') {
+      if (!shiftKey && key === 'Enter') {
         // Custom editors can listen for the event and stop propagation to prevent commit
         commitEditorChanges();
         closeEditor();

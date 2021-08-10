@@ -69,12 +69,12 @@ export default function GroupFormatter({
       >
         <path d={d} fill="currentColor" />
       </svg>
-        {/* <span style={groupCellTitle}>
+        <span style={groupCellTitle}>
           {groupColumn?.name}
         </span>
         <span style={groupCellValue}>
           {content}
-        </span> */}
+        </span>
     </div>
   );
 }

@@ -94,6 +94,12 @@ function getColumns(countries: string[]): readonly Column<Row, SummaryRow>[] {
       editor: TextEditor,
       summaryFormatter({ row }) {
         return <>{row.totalCount} records</>;
+      },
+      editorOptions: {
+        onCellKeyDown(event) {
+          console.log(event);
+          // event.preventDefault()
+        }
       }
     },
     {
