@@ -240,6 +240,18 @@ function getColumns(countries: string[]): readonly Column<Row, SummaryRow>[] {
       summaryFormatter({ row: { yesCount, totalCount } }) {
         return <>{`${Math.floor((100 * yesCount) / totalCount)}% ✔️`}</>;
       }
+    },
+    {
+      maxWidth: 100,
+      key: "add",
+      type: "add",
+      name: "",
+    },
+    {
+      maxWidth: 100,
+      key: "empty",
+      type: "empty",
+      name: "",
     }
   ];
 }

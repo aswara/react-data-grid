@@ -40,7 +40,6 @@ export function useViewportRows<R>({
   rowGrouper,
   expandedGroupIds,
   enableVirtualization,
-  theme
 }: ViewportRowsArgs<R>) {
   const [groupedRows, rowsCount] = useMemo(() => {
     if (groupBy.length === 0 || rowGrouper == null) return [undefined, rawRows.length];
@@ -58,6 +57,7 @@ export function useViewportRows<R>({
           remainingGroupByKeys.length === 0
             ? [childRows, childRows.length]
             : groupRows(childRows, remainingGroupByKeys, startRowIndex + groupRowsCount + 1); // 1 for parent row
+        
         groups[key] = { childRows, childGroups, startRowIndex: startRowIndex + groupRowsCount };
         groupRowsCount += childRowsCount + 1; // 1 for parent row
       }
@@ -67,6 +67,7 @@ export function useViewportRows<R>({
 
     return groupRows(rawRows, groupBy, 0);
   }, [groupBy, rowGrouper, rawRows]);
+  console.log(groupedRows)
 
   const [rows, isGroupRow] = useMemo((): [
     ReadonlyArray<R | GroupRow<R>>,

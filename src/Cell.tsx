@@ -88,7 +88,7 @@ function Cell<R, SR>({
     onRowChange(rowIdx, newRow);
   }
 
-  let {rowGroup} = column;
+  let {rowGroup, type} = column;
   let style = getCellStyle(column, colSpan);
   if(theme === 'kontenbase') {
     rowGroup = false;
@@ -99,6 +99,13 @@ function Cell<R, SR>({
         padding: 0,
         backgroundColor: 'var(--header-background-color)'
       }
+    }
+  }
+
+  if (['add', 'empty'].includes(type)) {
+    style = {
+      ...style,
+      border: 'none'
     }
   }
 

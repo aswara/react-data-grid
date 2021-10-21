@@ -7,6 +7,7 @@ export interface Column<TRow, TSummaryRow = unknown> {
   readonly name: string | ReactElement;
   /** A unique key to distinguish each column */
   readonly key: string;
+  readonly type?: string | null;
   /** Column width. If not specified, it will be determined automatically based on grid width and specified widths of other columns */
   readonly width?: number | string | null;
   /** Minimum column width in px. */
