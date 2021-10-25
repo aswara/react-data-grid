@@ -67,7 +67,6 @@ export function useViewportRows<R>({
 
     return groupRows(rawRows, groupBy, 0);
   }, [groupBy, rowGrouper, rawRows]);
-  console.log(groupedRows)
 
   const [rows, isGroupRow] = useMemo((): [
     ReadonlyArray<R | GroupRow<R>>,
